@@ -315,5 +315,29 @@ source_code_data_list = ["""
         )
 
         # show
-        return fig_duration_vs_quality_vs_phyz"""
+        return fig_duration_vs_quality_vs_phyz""", '''
+        def generate_pirsons_mtx():
+            interest_columns = ['Sleep Duration', 'Quality of Sleep', 'Physical Activity Level', 'Stress Level']
+            grouped_df = df[interest_columns]
+
+            correl_mtx = grouped_df.corr(method='pearson')
+            fig_temp = px.imshow(
+                correl_mtx,
+                text_auto=True,
+                color_continuous_scale='RdBu',
+                range_color=[-1, 1],
+                labels=dict(color='Pearsons Corellation'),
+                x=correl_mtx.columns,
+                y=correl_mtx.index,
+                title='Pearsons Correlations'
+            )
+
+            fig_temp.update_layout(
+                xaxis_title="Values",
+                yaxis_title="Values",
+                template='plotly_dark'
+            )
+
+            return fig_temp
+        '''
 ]

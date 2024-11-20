@@ -11,7 +11,7 @@ async def main():
     return {'message': 'Streamlit app is running at localhost'}
 
 def run_stre():
-    os.system('python -m streamlit run streamlit_app.py --server.port 8501 --server.headless true')
+    os.system('python -m streamlit run frontend.py --server.port 8501 --server.headless true')
 
 if __name__ == "__main__":
     thread = Thread(target=run_stre, daemon=True)
