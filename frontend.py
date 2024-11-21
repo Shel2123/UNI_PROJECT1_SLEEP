@@ -95,6 +95,6 @@ if submitted:
             logger.info(n_data)
             logger.info(f"Error {response.status_code}: {response.text}")
     except requests.exceptions.RequestException as e:
-        st.error("Could not connect to the sercer.")
+        st.error("Could not connect to the server.")
         logger.error(f"Connection error: {e}")
     
