@@ -361,5 +361,5 @@ class GenerateGraph:
 
         return fig_temp
 
-path = "data/Sleep_health_and_lifestyle_dataset.csv"
-graph_generator = GenerateGraph(path=path)
+PATH = "data/Sleep_health_and_lifestyle_dataset.csv"
+graph_generator = GenerateGraph(path=PATH)

@@ -3,7 +3,12 @@ import utils
 import data.source_code
 import requests
 import logging
+import subprocess
+import time
 
+subprocess.run(
+    ["python", 'delete_columns.py']
+)
 
 st.title("Sleep Statistics")
 
@@ -75,6 +80,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 if submitted:
+    run_api = subprocess.Popen(
+        ["python", 'backend.py']
+    )
+    time.sleep(2)
+    
     n_data = {
         "gender": gender,
         "age": age,
@@ -85,8 +95,8 @@ if submitted:
         "physical_activity_level": physical_activity_level
     }
     try:
-        response = requests.post("http://localhost:8000/submit/", json=n_data)
-        
+        response = requests.post("https://projectsleepac.streamlit.app:8000/submit/", json=n_data)
+
         if response.status_code == 200:
             st.success("Data submitted successfully!")
             st.json(response.json())
@@ -97,4 +107,3 @@ if submitted:
     except requests.exceptions.RequestException as e:
         st.error("Could not connect to the server.")
         logger.error(f"Connection error: {e}")
-    
