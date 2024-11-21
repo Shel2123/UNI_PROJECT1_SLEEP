@@ -2,7 +2,6 @@ import pandas as pd
 import logging
 import uvicorn
 import os
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
