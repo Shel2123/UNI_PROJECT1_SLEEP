@@ -58,7 +58,7 @@ async def submit_data(data: FormData):
     df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
     df.to_csv(PATH, index=False)
     
-    return {"message": "Data submitted successfully.", "data":new_data}
+    return {"message": "Data taken successfully!", "data":new_data}
 
 
 @app.get('/')

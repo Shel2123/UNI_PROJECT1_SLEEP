@@ -98,10 +98,10 @@ if submitted:
         response = requests.post("https://projectsleepac.streamlit.app/submit/", json=n_data)
 
         if response.status_code == 200:
-            st.success("Data submitted successfully!")
+            st.success("Data sent successfully.")
             st.json(response.json())
         else:
-            st.error("An error occured while submitting the data.")
+            st.error("An error occured while sending the data.")
             logger.info(n_data)
             logger.info(f"Error {response.status_code}: {response.text}")
     except requests.exceptions.RequestException as e:
