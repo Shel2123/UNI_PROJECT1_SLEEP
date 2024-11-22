@@ -89,7 +89,7 @@ if submitted:
     stdout, stderr = run_api.communicate()
     if stderr:
         logger.error(f"Backend error: {stderr.decode('utf-8')}")
-        st.error("Backend error: {stderr.decode('utf-8')}")
+        st.error(f"Backend error: {stderr.decode('utf-8')}")
 
     
     n_data = {
