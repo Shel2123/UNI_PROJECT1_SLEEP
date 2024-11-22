@@ -81,9 +81,16 @@ logger = logging.getLogger(__name__)
 
 if submitted:
     run_api = subprocess.Popen(
-        ["python", 'backend.py']
+        ["python", 'backend.py'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
     )
-    time.sleep(2)
+    time.sleep(5)
+    stdout, stderr = run_api.communicate()
+    if stderr:
+        logger.error(f"Backend error: {stderr.decode('utf-8')}")
+        st.error("Backend error: {stderr.decode('utf-8')}")
+
     
     n_data = {
         "gender": gender,
@@ -95,7 +102,7 @@ if submitted:
         "physical_activity_level": physical_activity_level
     }
     try:
-        response = requests.post("https://projectsleepac.streamlit.app/submit/", json=n_data)
+        response = requests.post("https://127.0.0.1:8000/submit/", json=n_data)
 
         if response.status_code == 200:
             st.success("Data sent successfully.")
