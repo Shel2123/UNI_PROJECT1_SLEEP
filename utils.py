@@ -3,9 +3,10 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+
 class GenerateGraph:
-    def __init__(self, path): 
-        self.df = pd.read_csv(path)
+    def __init__(self, data): 
+        self.df = data
 
     def generate_gender_chart(self):
         value_counts_gender = self.df['Gender'].value_counts()
@@ -136,7 +137,7 @@ class GenerateGraph:
 
     def generate_graph(self):
         # find every useful points
-        def fnd(values: list) -> list:
+        def fnd(values: list) -> tuple:
             peaks = []
             downs = []
             mx = max(values)
@@ -360,6 +361,4 @@ class GenerateGraph:
         )
 
         return fig_temp
-
-PATH = "data/Sleep_health_and_lifestyle_dataset.csv"
-graph_generator = GenerateGraph(path=PATH)
+    
