@@ -1,7 +1,7 @@
-import numpy as np
-import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import uuid
+import asyncio
 
 
 class GenerateGraph:
@@ -362,3 +362,5 @@ class GenerateGraph:
 
         return fig_temp
     
+    def generate_key(self, prefix="chart"):
+        return f"{prefix}_{uuid.uuid4().hex}"
