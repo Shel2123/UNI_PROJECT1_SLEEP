@@ -86,7 +86,7 @@ class SleepDataFrontend:
             gender = st.selectbox("Gender", ["Male", "Female"])
             age = st.number_input("Age (18-60)", min_value=18, max_value=60, step=1)
             occupation = st.text_input("Occupation:")
-            sleep_duration = st.slider("Sleep duration (in hours)", min_value=0.0, max_value=12.0, step=0.1)
+            sleep_duration = st.slider("Sleep duration (in hours)", min_value=2.0, max_value=12.0, step=0.1)
             quality_of_sleep = st.slider("Quality of sleep", min_value=0, max_value=10, step=1)
             stress_level = st.slider("Stress level", min_value=0, max_value=10, step=1)
             physical_activity_level = st.slider("Physical activity level", min_value=0, max_value=100, step=5)
@@ -94,6 +94,9 @@ class SleepDataFrontend:
             submitted = st.form_submit_button("Submit")
 
         if submitted:
+            if occupation.strip() == '':
+                occupation = 'Unemployed'
+            
             n_data = {
                 "gender": gender,
                 "age": age,
