@@ -28,56 +28,56 @@ class SleepDataFrontend:
     def dispaly_graphs(self, graph_generator):
         st.title("Sleep Statistics")
         with st.container():
-            st.markdown("### Firtly, Lets draw our gender statistic pie chart")
-        st.plotly_chart(graph_generator.generate_gender_chart())
+            st.markdown("### Firtly, lets draw some graphs to see general information. There is our gender statistic pie chart:")
+        st.plotly_chart(graph_generator.generate_gender_chart(), key="gender_chart")
         with st.expander("Show/Close code"):
             st.code(data.source_code.source_code_data_list[0], language='python')
 
         with st.container():
-            st.markdown("### Then, occupation pie chart")
-        st.plotly_chart(graph_generator.generate_occupation_chart(), use_container_width=True)
+            st.markdown("### Then, occupation pie chart:")
+        st.plotly_chart(graph_generator.generate_occupation_chart(), use_container_width=True, key='occupation_chart')
         with st.expander("Show/Close code"):
             st.code(data.source_code.source_code_data_list[1], language='python')
 
         with st.container():
             st.markdown("### May be stress level is occured by occupation")
-        st.plotly_chart(graph_generator.generate_stress_occupation_chart(), use_container_width=True)
+        st.plotly_chart(graph_generator.generate_stress_occupation_chart(), use_container_width=True, key='stress_occupation_chart')
         with st.expander("Show/Close code"):
             st.code(data.source_code.source_code_data_list[2], language='python')
 
         with st.container():
-            st.markdown("### Draw histogram to compare sleep duration and stress level")
-        st.plotly_chart(graph_generator.generate_spray_graph(), use_container_width=True)
+            st.markdown("### Draw 2D histogram to compare sleep duration and stress level")
+        st.plotly_chart(graph_generator.generate_spray_graph(), use_container_width=True, key='spray_graph')
         with st.expander("Show/Close code"):
             st.code(data.source_code.source_code_data_list[3], language='python')
 
         with st.container():
             st.markdown("### Lets look at the main tendense more carefully.")
-            st.markdown("### Firstly, we need to find the average values at each age and find changes and draw the graph.")
-        st.plotly_chart(graph_generator.generate_graph(), use_container_width=True)
+            st.markdown("### We need to find the average values at each age and find changes and draw the graph.")
+        st.plotly_chart(graph_generator.generate_graph(), use_container_width=True, key='graph')
         with st.expander("Show/Close code"):
             st.code(data.source_code.source_code_data_list[4], language='python')
 
         with st.container():
-            st.markdown("### We can see that Sleep Duration and Stress level have inverse dependence. Lets draw some more graphs if wee can find some patterns.")
-        st.plotly_chart(graph_generator.generate_phyz(), use_container_width=True)
+            st.markdown("### We can see that Sleep Duration and Stress level have strong inverse dependence. Lets draw some more graphs to find some more patterns.")
+        st.plotly_chart(graph_generator.generate_phyz(), use_container_width=True, key='phyz')
         with st.expander("Show/Close code"):
             st.code(data.source_code.source_code_data_list[5], language='python')
 
         with st.container():
             st.markdown("### We obtain, that after 35 yo there a bit linear dependence between physical activity and stress level. I am going to look at the patterns between sleep duration, quality of sleep and physical activity.")
-        st.plotly_chart(graph_generator.generate_duration_vs_quality_vs_phyz(), use_container_width=True)
+        st.plotly_chart(graph_generator.generate_duration_vs_quality_vs_phyz(), use_container_width=True, key='duration_vs_quality_vs_phyz')
         with st.expander("Show/Close code"):
             st.code(data.source_code.source_code_data_list[6], language='python')
 
         with st.container():
             st.markdown("### We can see that there is such a big dependence, but from 45 till 54 there is exception. After previous analise I can mention, that level of stress affects the physical activity. But lets look at numeratic statistics. I am going to use numpy to do it.")
-            st.markdown("### I am using Pirson's corelation formula.")
-        st.plotly_chart(graph_generator.generate_pirsons_mtx(), use_container_width=True)
+            st.markdown("### I am using Pearson's correlation formula.")
+        st.plotly_chart(graph_generator.generate_pirsons_mtx(), use_container_width=True, key='pirsons_mtx')
         with st.expander("Show/Close code"):
             st.code(data.source_code.source_code_data_list[7], language='python')
         with st.container():
-            st.markdown("### We can see that sleep duration and sleep quality extremly decreases stress level, physical activity increases a bit sleep duration and quality of sleep, but physical activity has almost no effect on stress level.")
+            st.markdown("### So, sleep duration and sleep quality extremly decreases stress level, physical activity increases a bit sleep duration and quality of sleep, but physical activity has almost no effect on stress level.")
 
 
     def display_form(self):
@@ -112,7 +112,8 @@ class SleepDataFrontend:
 
             if response.status_code == 200:
                 st.success("Data sent successfully.")
-                st.json(response.json())
+                with st.expander("Show/Close sent data"):
+                    st.json(response.json())
                 st.cache_data.clear()
                 data = self.load_data()
                 graph_generator = utils.GenerateGraph(data)
