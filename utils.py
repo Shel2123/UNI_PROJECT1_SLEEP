@@ -1,7 +1,6 @@
+import uuid
 import plotly.express as px
 import plotly.graph_objects as go
-import uuid
-import asyncio
 
 
 class GenerateGraph:
@@ -89,7 +88,6 @@ class GenerateGraph:
 
     def generate_spray_graph(self):
         fig_spray = go.Figure()
-        
         # add sleep duration data
         fig_spray.add_trace(go.Histogram2d(
             x = self.df['Age'],
@@ -148,8 +146,7 @@ class GenerateGraph:
                 elif values[i] < values[i - 1] and values[i] < values[i + 1] and values[i] != mn:
                     downs.append(i)
             return downs, peaks
-        
-        
+
         fig_graph = go.Figure()
         
         # group data into two columns by average values: average sleep and average stress
@@ -168,7 +165,7 @@ class GenerateGraph:
         # finding them
         sleep_mins, sleep_maxes = fnd(grouped_df['average_sleep'].values)
         stress_mins, stress_maxes = fnd(grouped_df['average_stress'].values)
-        
+
         # define common line styles
         line_styles = {
             "average_sleep": dict(color='rgb(0, 130, 180)'),
@@ -336,8 +333,8 @@ class GenerateGraph:
 
         # show
         return fig_duration_vs_quality_vs_phyz
-    
-    
+
+
     def generate_pirsons_mtx(self):
         interest_columns = ['Sleep Duration', 'Quality of Sleep', 'Physical Activity Level', 'Stress Level']
         grouped_df = self.df[interest_columns]
@@ -361,6 +358,6 @@ class GenerateGraph:
         )
 
         return fig_temp
-    
+
     def generate_key(self, prefix="chart"):
         return f"{prefix}_{uuid.uuid4().hex}"

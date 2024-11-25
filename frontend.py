@@ -1,10 +1,10 @@
-import streamlit as st 
 import utils
 import data.source_code
 import requests
 import logging
 import subprocess
 import pandas as pd
+import streamlit as st 
 
 
 class SleepDataFrontend:
@@ -12,19 +12,19 @@ class SleepDataFrontend:
         self.setup_logging()
         self.run()
 
-    
+
     def setup_logging(self):
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
-    
-    
+
+
     @st.cache_data
     def load_data(_self):
         PATH = 'data/Sleep_health_and_lifestyle_dataset.csv'
         data = pd.read_csv(PATH)
         return data
-    
-    
+
+
     def dispaly_graphs(self, graph_generator):
         st.title("Sleep Statistics")
         with st.container():
@@ -77,7 +77,7 @@ class SleepDataFrontend:
         with st.expander("Show/Close code"):
             st.code(data.source_code.source_code_data_list[7], language='python')
         with st.container():
-            st.markdown("### So, sleep duration and sleep quality extremly decreases stress level, physical activity increases a bit sleep duration and quality of sleep, but physical activity has almost no effect on stress level.")
+            st.markdown("### So, sleep duration and sleep quality extremly decrease stress level, physical activity increases a bit sleep duration and quality of sleep, but physical activity has almost no effect on stress level.")
 
 
     def display_form(self):
@@ -90,13 +90,13 @@ class SleepDataFrontend:
             quality_of_sleep = st.slider("Quality of sleep", min_value=0, max_value=10, step=1)
             stress_level = st.slider("Stress level", min_value=0, max_value=10, step=1)
             physical_activity_level = st.slider("Physical activity level", min_value=0, max_value=100, step=5)
-            
+
             submitted = st.form_submit_button("Submit")
 
         if submitted:
             if occupation.strip() == '':
                 occupation = 'Unemployed'
-            
+
             n_data = {
                 "gender": gender,
                 "age": age,
@@ -143,5 +143,3 @@ class SleepDataFrontend:
 
 if __name__ == "__main__":
     SleepDataFrontend()
-
-
