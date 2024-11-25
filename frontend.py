@@ -5,6 +5,7 @@ import logging
 import subprocess
 import pandas as pd
 import streamlit as st 
+from dotenv import dotenv_values
 
 
 class SleepDataFrontend:
@@ -20,13 +21,27 @@ class SleepDataFrontend:
 
     @st.cache_data
     def load_data(_self):
-        PATH = 'data/Sleep_health_and_lifestyle_dataset.csv'
-        data = pd.read_csv(PATH)
+        data = pd.read_csv(dotenv_values('.env')['PATH'])
         return data
+
+    def clean_data(self): 
+        try: 
+            response = requests.get("http://127.0.0.1:8000/api/clean_data/") 
+            if response.status_code == 200: 
+                self.logger.info("Data succsessfully cleared.")
+                st.success("Data succsessfully cleared.")
+            else: 
+                self.logger.error("An error occured while cleaning data.")
+                st.error("An error occured while cleaning data.")
+        except requests.exceptions.RequestException as e: 
+            self.logger.error(f"An error occured while connecting to the server: {e}")
 
 
     def dispaly_graphs(self, graph_generator):
         st.title("Sleep Statistics")
+        
+        self.clean_data()
+        
         with st.container():
             st.markdown("### Firtly, lets draw some graphs to see general information. There is our gender statistic pie chart:")
         st.plotly_chart(graph_generator.generate_gender_chart(), key=graph_generator.generate_key())
