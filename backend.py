@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import dotenv_values
+import numpy as np
 
 
 class FormData(BaseModel):
@@ -58,22 +59,32 @@ class SleepDataBackend:
     async def clean_data(self):
         try:
             df = pd.read_csv(self.PATH)
-            self.logger.info('Origin data loaded')
+            self.logger.info('Original data loaded.')
 
-            columns_to_delete = dotenv_values('.env')['COLUMNS_TO_DELETE']
-            df.drop(columns=columns_to_delete, inplace=True, errors='ignore')
-            self.logger.info('Useless columns removed')
+            df = df.dropna(how='all')
+            self.logger.info('Rows with all NaN values removed.')
 
+            numeric_cols = df.select_dtypes(include=[np.number]).columns
             row_keep = []
             for index, row in df.iterrows():
-                if not (row.isna().all() or (row == 0).all()):
-                    row_keep.append(index)
-
+                if not row[numeric_cols].isna().all():
+                    if any(value != 0 for value in row[numeric_cols] if isinstance(value, (int, float))):
+                        row_keep.append(index)
             df = df.loc[row_keep]
-            self.logger.info('Empty lines deleted.')
+            self.logger.info('Rows with all zeros in numeric columns removed.')
+
+            for col in df.columns:
+                df[col] = df[col].replace([np.inf, -np.inf], np.nan)
+            self.logger.info('Inf values replaced with None.')
+
+            columns_to_delete = dotenv_values('.env')['COLUMNS_TO_DELETE']
+            columns_to_delete = [col.strip().strip('"').strip("'") for col in columns_to_delete.strip("[]").split(',')]
+
+            df.drop(columns=columns_to_delete, errors='ignore', inplace=True)
+            self.logger.info('Specified columns removed.')
 
             df.to_csv(self.PATH, index=False)
-            self.logger.info('Changes are saved')
+            self.logger.info('Changes saved to CSV.')
 
             return {'message': 'Data successfully cleared.', 'data': df.head().to_dict()}
         except Exception as e:

@@ -146,10 +146,6 @@ class SleepDataFrontend:
 
 
     def run(self):
-        subprocess.run(
-            ["python", 'delete_columns.py']
-        )
-
         data = self.load_data()
         graph_generator = utils.GenerateGraph(data)
         self.dispaly_graphs(graph_generator)
