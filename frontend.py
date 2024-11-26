@@ -2,7 +2,6 @@ import utils
 import data.source_code
 import requests
 import logging
-import subprocess
 import pandas as pd
 import streamlit as st 
 from dotenv import dotenv_values

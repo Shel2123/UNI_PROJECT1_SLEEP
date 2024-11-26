@@ -359,5 +359,6 @@ class GenerateGraph:
 
         return fig_temp
 
+
     def generate_key(self, prefix="chart"):
         return f"{prefix}_{uuid.uuid4().hex}"
