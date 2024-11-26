@@ -46,7 +46,7 @@ class SleepDataBackend:
             return await self.submit_data(data)
 
 
-        @self.app.get('/api/clean_data')
+        @self.app.get('/api/clean_data/')
         async def clean_data():
             return await self.clean_data()
 
@@ -86,7 +86,7 @@ class SleepDataBackend:
             df.to_csv(self.PATH, index=False)
             self.logger.info('Changes saved to CSV.')
 
-            return {'message': 'Data successfully cleared.', 'data': df.head().to_dict()}
+            return {'message': 'Data successfully cleared.', 'data': df.head().to_dict()(orient='records')}
         except Exception as e:
             self.logger.error(f"Error while clearing data: {e}")
             return {'error': str(e)}
