@@ -1,4 +1,5 @@
-source_code_data_list = ["""
+source_code_data_list = {
+    'first_table': """
     def generate_gender_chart():
     value_counts_gender = df['Gender'].value_counts()
     fig_gender = go.Figure(data=[
@@ -18,7 +19,7 @@ source_code_data_list = ["""
     )
     return fig_gender
     """,
-    """def generate_occupation_chart():
+    'second_table': '''def generate_occupation_chart():
     # group occupation data
         value_counts_occupation = df['Occupation'].value_counts()
 
@@ -40,8 +41,8 @@ source_code_data_list = ["""
         )
 
         # show
-        return fig_occupation""",
-    """def generate_stress_occupation_chart():
+        return fig_occupation''',
+    'third_table': """def generate_stress_occupation_chart():
         # group data
         average_stress_table = df.groupby('Occupation').agg(
             average_stress_level=('Stress Level', 'mean'),
@@ -73,7 +74,7 @@ source_code_data_list = ["""
 
         # show the graph
         return fig_chart_occupation_stress""", 
-        """def generate_spray_graph():
+        'fourth_table': """def generate_spray_graph():
         fig_spray = go.Figure()
         
         # add sleep duration data
@@ -118,8 +119,8 @@ source_code_data_list = ["""
         )
 
         # show
-        return fig_spray""", 
-        """def generate_graph():
+        return fig_spray""",
+        'fifth_table': """def generate_graph():
         # find every useful points
         def fnd(values: list) -> list:
             peaks = []
@@ -222,7 +223,7 @@ source_code_data_list = ["""
 
         # show
         return fig_graph""",
-    """def generate_phyz():
+    'sixth_table': """def generate_phyz():
         fig_phyz = go.Figure()
         # group data by average values
         grouped_df = df.groupby('Age').agg(
@@ -269,7 +270,7 @@ source_code_data_list = ["""
 
         # show
         return fig_phyz""",
-    """def generate_duration_vs_quality_vs_phyz():
+    'seventh_table': """def generate_duration_vs_quality_vs_phyz():
         fig_duration_vs_quality_vs_phyz = go.Figure()
         # group data by average values
         grouped_df = df.groupby('Age').agg(
@@ -315,8 +316,8 @@ source_code_data_list = ["""
         )
 
         # show
-        return fig_duration_vs_quality_vs_phyz""", '''
-        def generate_pirsons_mtx():
+        return fig_duration_vs_quality_vs_phyz""", 
+        'eight_table': '''def generate_pirsons_mtx():
             interest_columns = ['Sleep Duration', 'Quality of Sleep', 'Physical Activity Level', 'Stress Level']
             grouped_df = df[interest_columns]
 
@@ -340,4 +341,4 @@ source_code_data_list = ["""
 
             return fig_temp
         '''
-]
+}
