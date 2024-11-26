@@ -86,7 +86,7 @@ class SleepDataBackend:
             df.to_csv(self.PATH, index=False)
             self.logger.info('Changes saved to CSV.')
 
-            return {'message': 'Data successfully cleared.', 'data': df.head().to_dict()(orient='records')}
+            return {'message': 'Data successfully cleared.', 'data': df.head().to_dict()}
         except Exception as e:
             self.logger.error(f"Error while clearing data: {e}")
             return {'error': str(e)}
