@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import dotenv_values
 import numpy as np
+import data.cfg as cfg
 
 
 class FormData(BaseModel):
@@ -77,7 +78,7 @@ class SleepDataBackend:
                 df[col] = df[col].replace([np.inf, -np.inf], np.nan)
             self.logger.info('Inf values replaced with None.')
 
-            columns_to_delete = dotenv_values('.env')['COLUMNS_TO_DELETE']
+            columns_to_delete = cfg.COLUMNS_TO_DELETE
             columns_to_delete = [col.strip().strip('"').strip("'") for col in columns_to_delete.strip("[]").split(',')]
 
             df.drop(columns=columns_to_delete, errors='ignore', inplace=True)

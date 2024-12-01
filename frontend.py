@@ -5,6 +5,7 @@ import logging
 import pandas as pd
 import streamlit as st 
 from dotenv import dotenv_values
+import data.cfg as cfg
 
 
 class SleepDataFrontend:
@@ -25,7 +26,7 @@ class SleepDataFrontend:
 
     def clean_data(self): 
         try: 
-            response = requests.get("http://127.0.0.1:8000/api/clean_data/") 
+            response = requests.get(cfg.CLEAN_DATA_URL) 
             if response.status_code == 200: 
                 self.logger.info("Data succsessfully cleared.")
                 st.success("Data succsessfully cleared.")
@@ -125,7 +126,7 @@ class SleepDataFrontend:
 
     def handle_submission(self, n_data):
         try:
-            response = requests.post("http://127.0.0.1:8000/api/submit/", json=n_data)
+            response = requests.post(cfg.SUBMIT_URL, json=n_data)
 
             if response.status_code == 200:
                 st.success("Data sent successfully.")
