@@ -1,4 +1,4 @@
-import analyze
+import analyse
 import utils
 import requests
 import logging
@@ -39,7 +39,7 @@ class SleepDataFrontend:
             self.logger.error(f"An error occured while connecting to the server: {e}")
 
 
-    def dispaly_graphs(self, graph_generator: analyze.GenerateGraph) -> None:
+    def dispaly_graphs(self, graph_generator: analyse.GenerateGraph) -> None:
         st.title("Sleep Statistics")
         
         self.clean_data()
@@ -75,7 +75,7 @@ class SleepDataFrontend:
 
 
     def display_form(self):
-        st.header("Add your data")
+        st.header("Add your own data to analyse it.")
         with st.form("sleep_form"):
             gender: str = st.selectbox("Gender", ["Male", "Female"])
             age: int = st.number_input("Age (18-60)", min_value=18, max_value=60, step=1)
@@ -113,7 +113,7 @@ class SleepDataFrontend:
                     st.json(response.json())
                 st.cache_data.clear()
                 data: pd.DataFrame = self.load_data()
-                graph_generator: analyze.GenerateGraph = analyze.GenerateGraph(data)
+                graph_generator: analyse.GenerateGraph = analyse.GenerateGraph(data)
                 self.dispaly_graphs(graph_generator)
             else:
                 st.error("An error occured while sending the data.")
@@ -126,7 +126,7 @@ class SleepDataFrontend:
 
     def run(self):
         data: pd.DataFrame = self.load_data()
-        graph_generator: analyze.GenerateGraph = analyze.GenerateGraph(data)
+        graph_generator: analyse.GenerateGraph = analyse.GenerateGraph(data)
         self.dispaly_graphs(graph_generator)
         self.display_form()
 

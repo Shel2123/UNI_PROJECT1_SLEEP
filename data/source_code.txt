@@ -56,6 +56,9 @@ def generate_occupation_chart(self):
     return fig_occupation
 
 #TEXT
+### The chart shows a heavy concentration in medical and technical professions, as nurses, doctors, and engineers together account for more than 55% of the total. Management-related roles (like Manager and Sales Representative) and specific technical roles (like Software Engineer and Scientist) occupy a minimal share of less than 3% combined. This suggests a workforce distribution favoring healthcare, education, and technical fields over managerial or niche technical roles.
+
+#TEXT
 ### May be stress level is occured by occupation:
 
 #METHOD
@@ -79,7 +82,7 @@ def generate_stress_occupation_chart(self):
             average_stress_table,
             x='Occupation',
             y='average_stress_level',
-            title='Occupation occurs stress',
+            title='Occupation increases Stress Level',
             labels={'average_stress_level': 'Average Stress Level', 'Occupation': 'Occupation'},
             text='count',
             hover_data={'count': True}
@@ -96,7 +99,16 @@ def generate_stress_occupation_chart(self):
     return fig_chart_occupation_stress
 
 #TEXT
-### Draw 2D histogram to compare sleep duration and stress level
+### The chart is a bar graph showing the average stress levels experienced by individuals in various occupations.
+
+#TEXT
+### Healthcare professions (Nurses and Doctors) are the most stressful, likely due to the high stakes and demanding nature of their work. Technical roles like Engineers also experience significant stress, but Software Engineers seem to face minimal stress. Management and Sales-related roles appear to have the least stress, perhaps due to differences in responsibility, work environment or coping mechanisms.
+
+#TEXT
+### This data suggests that stress levels correlate strongly with the nature of work, responsibility and the emotional or physical demands of the role. It may prompt organizations to focus on stress management strategies, especially for healthcare and engineering professionals.
+
+#TEXT
+### Draw 2D histogram to compare sleep duration and stress level:
 
 #METHOD
 generate_spray_graph
@@ -138,7 +150,7 @@ def generate_spray_graph(self):
 
     # decorate
     fig_spray.update_layout(
-        title='Sleep duration vs Stress Level',
+        title='Sleep Duration vs Stress Level',
         xaxis_title='Age',
         yaxis_title='Value',
         barmode='overlay',
@@ -150,9 +162,6 @@ def generate_spray_graph(self):
 
 #TEXT
 ### Lets look at the main tendense more carefully.
-
-#TEXT
-### We need to find the average values at each age and find changes and draw the graph.
 
 #METHOD
 generate_average_chart
@@ -262,7 +271,13 @@ def generate_average_chart(self):
     return fig_graph
 
 #TEXT
-### We can see that Sleep Duration and Stress level have strong inverse dependence. Lets draw some more graphs to find some more patterns.
+### These diagrams compare two variables (average sleep and average stress) across different age groups.
+
+#TEXT
+### These diagrams suggests a clear interaction between stress and sleep across different age groups. Managing stress around key ages, such as mid-30s and 50, could potentially stabilize sleep patterns. Long-term stress management might help mitigate the sharp declines in sleep seen at stress peaks.
+
+#TEXT
+### Also we can see that Sleep Duration and Stress level have strong inverse dependence. Lets draw some more graphs to find some more patterns.
 
 #METHOD
 generate_phys_sleep_chart
@@ -291,7 +306,7 @@ def generate_phys_sleep_chart(self):
         x=grouped_df['Age'],
         y=grouped_df['average_stress'],
         mode='lines',
-        name='Average stress level',
+        name='Average Stress Level',
         line=dict(color='rgb(205, 92, 92)')
     ))
 
@@ -300,13 +315,13 @@ def generate_phys_sleep_chart(self):
         x=grouped_df['Age'],
         y=grouped_df['average_physical'] / 10,
         mode='lines',
-        name='Average physical activity level',
+        name='Average Physical Activity Level',
         line=dict(color='orange')
     ))
 
     # decorate
     fig_phyz.update_layout(
-        title='Average sleep quality vs Average stress level vs Average physical activity',
+        title='Average Sleep Quality vs Average Stress Level vs Average Physical Activity',
         xaxis_title='Age',
         yaxis_title='Average values',
         legend_title='Value',
@@ -315,6 +330,21 @@ def generate_phys_sleep_chart(self):
 
     # show
     return fig_phyz
+
+#TEXT
+### The diagram compares three variables — sleep quality (blue line), stress level (red line), and physical activity level (yellow line) — across different age groups.
+
+#TEXT
+### There is a clear interaction between stress, sleep quality, and physical activity:
+
+#TEXT
+### Higher physical activity correlates with reduced stress and better sleep.
+
+#TEXT
+### Stress spikes seem to disrupt sleep quality and activity levels.
+
+#TEXT
+### Encouraging consistent physical activity across all age groups might help maintain lower stress and improve sleep quality, particularly during stress-prone periods like mid-30s and early 50s.
 
 #TEXT
 ### We obtain, that after 35 yo there a bit linear dependence between physical activity and stress level. I am going to look at the patterns between sleep duration, quality of sleep and physical activity.
@@ -337,7 +367,7 @@ def generate_duration_vs_quality_vs_phys_chart(self):
         x=grouped_df['Age'],
         y=grouped_df['average_quality'],
         mode='lines',
-        name='Average quality of sleep',
+        name='Average Quality of Sleep',
         line=dict(color='rgb(0, 130, 180)')
     ))
 
@@ -346,7 +376,7 @@ def generate_duration_vs_quality_vs_phys_chart(self):
         x=grouped_df['Age'],
         y=grouped_df['average_duration'],
         mode='lines',
-        name='Average sleep duration',
+        name='Average Sleep Duration',
         line=dict(color='rgb(205, 92, 92)')
     ))
 
@@ -355,13 +385,13 @@ def generate_duration_vs_quality_vs_phys_chart(self):
         x=grouped_df['Age'],
         y=grouped_df['average_physical'] / 10,
         mode='lines',
-        name='Average physical activity level',
+        name='Average Physical Activity Level',
         line=dict(color='orange')
     ))
 
     # decorate
     fig_duration_vs_quality_vs_phyz.update_layout(
-        title='Average sleep of quality vs Average sleep suration vs Average physical activity',
+        title='Average Quality of Sleep vs Average Sleep Duration vs Average Physical Activity',
         xaxis_title='Age',
         yaxis_title='Average values',
         legend_title='Value',
@@ -372,7 +402,13 @@ def generate_duration_vs_quality_vs_phys_chart(self):
     return fig_duration_vs_quality_vs_phyz
 
 #TEXT
-### We can see that there is such a big dependence, but from 45 till 54 there is exception. After previous analise I can mention, that level of stress affects the physical activity. But lets look at numeratic statistics. I am going to use numpy to do it.
+### The diagram compares three metrics — sleep quality (blue line), sleep duration (red line), and physical activity level (yellow line) — across various age groups.
+
+#TEXT
+### The data suggests a positive correlation between physical activity and better sleep outcomes (both quality and duration). For instance, the spike in activity around age 50 aligns with improvements in sleep metrics. Stress or lifestyle changes around age 35 could explain the concurrent decline in sleep quality, duration, and activity levels. Maintaining physical activity levels, especially after age 50, may help preserve sleep quality even as natural aging occurs.
+
+#TEXT
+### We can see that there is such a big dependence, but from 45 till 54 there is exception. After previous analise I can mention, that level of stress affects the physical activity. But lets look at numeratic statistics.
 
 #TEXT
 ### I am using Pearson's correlation formula.
@@ -391,10 +427,10 @@ def generate_pearsons_mtx(self):
         text_auto=True,
         color_continuous_scale='RdBu',
         range_color=[-1, 1],
-        labels=dict(color='Pearsons Corellation'),
+        labels=dict(color="Pearson's Corellation"),
         x=correl_mtx.columns,
         y=correl_mtx.index,
-        title='Pearsons Correlations'
+        title="Pearson's Correlations"
     )
 
     fig_temp.update_layout(
@@ -406,4 +442,38 @@ def generate_pearsons_mtx(self):
     return fig_temp
 
 #TEXT
+### This table compares corellations between Sleep Duration. Quality of Sleep, Physical Activity Level and Stress Level.
+
+#TEXT
+### More equal to 1 = linear dependence
+
+#TEXT
+### More equal to -1 = inverse dependence
+
+#TEXT
+### 0 means there is no dependence
+
+#TEXT
 ### So, sleep duration and sleep quality extremly decrease stress level, physical activity increases a bit sleep duration and quality of sleep, but physical activity has almost no effect on stress level.
+
+#TEXT
+###  
+
+#TEXT
+# Conclusion
+
+#TEXT
+### Key Stress Points: The mid-30s and early 50s are critical ages where stress peaks significantly affect sleep and activity levels.
+
+#TEXT
+### Role of Physical Activity: Regular physical activity emerges as a vital factor in mitigating stress and enhancing both sleep quality and duration.
+
+#TEXT
+### Workforce Dynamics: Stress levels vary widely by profession, with healthcare workers requiring targeted interventions to manage their high stress loads.
+
+#TEXT
+### Recommendations: Organizations and individuals should focus on promoting stress management strategies, encouraging physical activity, and maintaining work-life balance to optimize health and well-being across professions and age groups.
+
+#TEXT
+###  
+

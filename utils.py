@@ -1,29 +1,29 @@
 import uuid
-
+from typing import List, Tuple, Optional
 
 class Utils():
-    def __init__(self, FILE_TO_PARSE) -> None:
-        self.PARSE_FILE_PATH = FILE_TO_PARSE
-    
+    def __init__(self, FILE_TO_PARSE: str) -> None:
+        self.PARSE_FILE_PATH: str = FILE_TO_PARSE
 
-    def generate_key(self, prefix="chart"):
+
+    def generate_key(self, prefix: str ="chart") -> str:
         return f"{prefix}_{uuid.uuid4().hex}"
 
 
-    def parse_file(self):
+    def parse_file(self) -> List[Tuple[Optional[str], str]]:
         with open(self.PARSE_FILE_PATH, 'r', encoding='utf-8') as file:
-            lines = file.readlines()
-        
-        content = []
-        current_type = None
-        current_block = []
-        
+            lines: List[str] = file.readlines()
+
+        content: List[Tuple[Optional[str], str]] = []
+        current_type: Optional[str] = None
+        current_block: List[str] = []
+
         for line in lines:
             if current_type == 'code':
-                clean_line = line.rstrip('\n')
+                clean_line: str = line.rstrip('\n')
             else:
-                clean_line = line.strip()
-            
+                clean_line: str = line.strip()
+
             if clean_line == '#TEXT':
                 if current_block:
                     content.append((current_type, "\n".join(current_block)))
@@ -41,9 +41,9 @@ class Utils():
                     current_block = []
             else:
                 current_block.append(clean_line)
-        
+
         if current_block:
             content.append((current_type, "\n".join(current_block)))
-        
+
         return content
         

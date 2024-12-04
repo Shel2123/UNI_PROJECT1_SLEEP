@@ -1,5 +1,6 @@
 import plotly.express as px
 import plotly.graph_objects as go
+from typing import List, Tuple, Dict
 
 
 class GenerateGraph:
@@ -68,7 +69,7 @@ class GenerateGraph:
                 average_stress_table,
                 x='Occupation',
                 y='average_stress_level',
-                title='Occupation occurs stress',
+                title='Occupation increases Stress Level',
                 labels={'average_stress_level': 'Average Stress Level', 'Occupation': 'Occupation'},
                 text='count',
                 hover_data={'count': True}
@@ -121,7 +122,7 @@ class GenerateGraph:
 
         # decorate
         fig_spray.update_layout(
-            title='Sleep duration vs Stress Level',
+            title='Sleep Duration vs Stress Level',
             xaxis_title='Age',
             yaxis_title='Value',
             barmode='overlay',
@@ -134,7 +135,7 @@ class GenerateGraph:
 
     def generate_average_chart(self):
         # find every useful points
-        def fnd(values: list) -> tuple:
+        def fnd(values: List[float]) -> Tuple[List[int], List[int]]:
             peaks = []
             downs = []
             mx = max(values)
@@ -166,12 +167,12 @@ class GenerateGraph:
         stress_mins, stress_maxes = fnd(grouped_df['average_stress'].values)
 
         # define common line styles
-        line_styles = {
+        line_styles: Dict[str, Dict[str, str]] = {
             "average_sleep": dict(color='rgb(0, 130, 180)'),
             "average_stress": dict(color='rgb(205, 92, 92)'),
         }
 
-        marker_styles = {
+        marker_styles: Dict[str, Dict[str, str]] = {
             "sleep_down": dict(color='blue', size=10, symbol="triangle-down"),
             "sleep_up": dict(color='blue', size=10, symbol="triangle-up"),
             "stress_down": dict(color='red', size=10, symbol="triangle-down"),
@@ -225,7 +226,7 @@ class GenerateGraph:
 
         # decorate
         fig_graph.update_layout(
-            title='Average Sleep vs Average Stress',
+            title='Average Sleep Duration vs Average Stress Level',
             xaxis_title='Age',
             yaxis_title='Average Values',
             legend_title='Value',
@@ -250,7 +251,7 @@ class GenerateGraph:
             x=grouped_df['Age'],
             y=grouped_df['average_quality'],
             mode='lines',
-            name='Average quality of sleep',
+            name='Average Quality of Sleep',
             line=dict(color='rgb(0, 130, 180)')
         ))
 
@@ -259,7 +260,7 @@ class GenerateGraph:
             x=grouped_df['Age'],
             y=grouped_df['average_stress'],
             mode='lines',
-            name='Average stress level',
+            name='Average Stress Level',
             line=dict(color='rgb(205, 92, 92)')
         ))
 
@@ -268,13 +269,13 @@ class GenerateGraph:
             x=grouped_df['Age'],
             y=grouped_df['average_physical'] / 10,
             mode='lines',
-            name='Average physical activity level',
+            name='Average Physical Activity Level',
             line=dict(color='orange')
         ))
 
         # decorate
         fig_phyz.update_layout(
-            title='Average sleep quality vs Average stress level vs Average physical activity',
+            title='Average Sleep Quality vs Average Stress Level vs Average Physical Activity',
             xaxis_title='Age',
             yaxis_title='Average values',
             legend_title='Value',
@@ -299,7 +300,7 @@ class GenerateGraph:
             x=grouped_df['Age'],
             y=grouped_df['average_quality'],
             mode='lines',
-            name='Average quality of sleep',
+            name='Average Quality of Sleep',
             line=dict(color='rgb(0, 130, 180)')
         ))
 
@@ -308,7 +309,7 @@ class GenerateGraph:
             x=grouped_df['Age'],
             y=grouped_df['average_duration'],
             mode='lines',
-            name='Average sleep duration',
+            name='Average Sleep Duration',
             line=dict(color='rgb(205, 92, 92)')
         ))
 
@@ -317,13 +318,13 @@ class GenerateGraph:
             x=grouped_df['Age'],
             y=grouped_df['average_physical'] / 10,
             mode='lines',
-            name='Average physical activity level',
+            name='Average Physical Activity Level',
             line=dict(color='orange')
         ))
 
         # decorate
         fig_duration_vs_quality_vs_phyz.update_layout(
-            title='Average sleep of quality vs Average sleep suration vs Average physical activity',
+            title='Average Quality of Sleep vs Average Sleep Duration vs Average Physical Activity',
             xaxis_title='Age',
             yaxis_title='Average values',
             legend_title='Value',
@@ -344,10 +345,10 @@ class GenerateGraph:
             text_auto=True,
             color_continuous_scale='RdBu',
             range_color=[-1, 1],
-            labels=dict(color='Pearsons Corellation'),
+            labels=dict(color="Pearson's Corellation"),
             x=correl_mtx.columns,
             y=correl_mtx.index,
-            title='Pearsons Correlations'
+            title="Pearson's Correlations"
         )
 
         fig_temp.update_layout(
