@@ -1,27 +1,34 @@
-source_code_data_list = {
-    'first_table': """
-    def generate_gender_chart():
-    value_counts_gender = df['Gender'].value_counts()
-    fig_gender = go.Figure(data=[
-    go.Pie(
-        labels=value_counts_gender.index,
-        values=value_counts_gender.values,
-        hole=0.6,
-        marker=dict(colors=['rgb(135, 206, 235)', 'rgb(238, 130, 238)']),
-        textinfo='label+percent'
-        )
-    ])
+import plotly.express as px
+import plotly.graph_objects as go
 
-    fig_gender.update_layout(
-        title_text='Gender Stats',
-        template='plotly_dark',
-        showlegend=False
-    )
-    return fig_gender
-    """,
-    'second_table': '''def generate_occupation_chart():
-    # group occupation data
-        value_counts_occupation = df['Occupation'].value_counts()
+
+class GenerateGraph:
+    def __init__(self, data): 
+        self.df = data
+
+    def generate_gender_chart(self):
+        value_counts_gender = self.df['Gender'].value_counts()
+        fig_gender = go.Figure(data=[
+        go.Pie(
+            labels=value_counts_gender.index,
+            values=value_counts_gender.values,
+            hole=0.6,
+            marker=dict(colors=['rgb(135, 206, 235)', 'rgb(238, 130, 238)']),
+            textinfo='label+percent'
+            )
+        ])
+
+        fig_gender.update_layout(
+            title_text='Gender Stats',
+            template='plotly_dark',
+            showlegend=False
+        )
+        return fig_gender
+
+
+    def generate_occupation_chart(self):
+        # group occupation data
+        value_counts_occupation = self.df['Occupation'].value_counts()
 
         # set occupation statistics
         fig_occupation = go.Figure(data=[
@@ -41,10 +48,12 @@ source_code_data_list = {
         )
 
         # show
-        return fig_occupation''',
-    'third_table': """def generate_stress_occupation_chart():
+        return fig_occupation
+
+
+    def generate_stress_occupation_chart(self):
         # group data
-        average_stress_table = df.groupby('Occupation').agg(
+        average_stress_table = self.df.groupby('Occupation').agg(
             average_stress_level=('Stress Level', 'mean'),
             count=('Stress Level', 'size')
         ).reset_index()
@@ -73,14 +82,15 @@ source_code_data_list = {
         )
 
         # show the graph
-        return fig_chart_occupation_stress""", 
-        'fourth_table': """def generate_spray_graph():
+        return fig_chart_occupation_stress
+
+
+    def generate_spray_graph(self):
         fig_spray = go.Figure()
-        
         # add sleep duration data
         fig_spray.add_trace(go.Histogram2d(
-            x = df['Age'],
-            y = df['Sleep Duration'],
+            x = self.df['Age'],
+            y = self.df['Sleep Duration'],
             colorscale=[
                 [0, 'rgba(0, 0, 0, 0)'],
                 [0.5, 'rgba(0, 130, 180, 0.5)'],
@@ -95,8 +105,8 @@ source_code_data_list = {
 
         # add stress level data
         fig_spray.add_trace(go.Histogram2d(
-            x = df['Age'],
-            y = df['Stress Level'],
+            x = self.df['Age'],
+            y = self.df['Stress Level'],
             colorscale=[
                 [0, 'rgba(0, 0, 0, 0)'],
                 [0.5, 'rgba(205, 92, 92, 0.5)'],
@@ -105,7 +115,7 @@ source_code_data_list = {
             nbinsx=60,
             nbinsy=30,
             opacity=0.75,
-            colorbar=dict(title='Stress Freq', x=1.1),
+            colorbar=dict(title='Stress Freq', x=1.2),
             showscale=True
         ))
 
@@ -119,10 +129,12 @@ source_code_data_list = {
         )
 
         # show
-        return fig_spray""",
-        'fifth_table': """def generate_graph():
+        return fig_spray
+
+
+    def generate_average_chart(self):
         # find every useful points
-        def fnd(values: list) -> list:
+        def fnd(values: list) -> tuple:
             peaks = []
             downs = []
             mx = max(values)
@@ -133,12 +145,11 @@ source_code_data_list = {
                 elif values[i] < values[i - 1] and values[i] < values[i + 1] and values[i] != mn:
                     downs.append(i)
             return downs, peaks
-        
-        
+
         fig_graph = go.Figure()
         
         # group data into two columns by average values: average sleep and average stress
-        grouped_df = df.groupby('Age').agg(
+        grouped_df = self.df.groupby('Age').agg(
             average_sleep=('Sleep Duration', 'mean'),
             average_stress=('Stress Level', 'mean')
         ).reset_index()
@@ -153,7 +164,7 @@ source_code_data_list = {
         # finding them
         sleep_mins, sleep_maxes = fnd(grouped_df['average_sleep'].values)
         stress_mins, stress_maxes = fnd(grouped_df['average_stress'].values)
-        
+
         # define common line styles
         line_styles = {
             "average_sleep": dict(color='rgb(0, 130, 180)'),
@@ -222,11 +233,13 @@ source_code_data_list = {
         )
 
         # show
-        return fig_graph""",
-    'sixth_table': """def generate_phyz():
+        return fig_graph
+
+
+    def generate_phys_sleep_chart(self):
         fig_phyz = go.Figure()
         # group data by average values
-        grouped_df = df.groupby('Age').agg(
+        grouped_df = self.df.groupby('Age').agg(
             average_physical=('Physical Activity Level', 'mean'),
             average_quality=('Quality of Sleep', 'mean'),
             average_stress=('Stress Level', 'mean')
@@ -269,11 +282,13 @@ source_code_data_list = {
         )
 
         # show
-        return fig_phyz""",
-    'seventh_table': """def generate_duration_vs_quality_vs_phyz():
+        return fig_phyz
+
+
+    def generate_duration_vs_quality_vs_phys_chart(self):
         fig_duration_vs_quality_vs_phyz = go.Figure()
         # group data by average values
-        grouped_df = df.groupby('Age').agg(
+        grouped_df = self.df.groupby('Age').agg(
             average_physical=('Physical Activity Level', 'mean'),
             average_quality=('Quality of Sleep', 'mean'),
             average_duration=('Sleep Duration', 'mean')
@@ -316,29 +331,29 @@ source_code_data_list = {
         )
 
         # show
-        return fig_duration_vs_quality_vs_phyz""", 
-        'eight_table': '''def generate_pirsons_mtx():
-            interest_columns = ['Sleep Duration', 'Quality of Sleep', 'Physical Activity Level', 'Stress Level']
-            grouped_df = df[interest_columns]
+        return fig_duration_vs_quality_vs_phyz
 
-            correl_mtx = grouped_df.corr(method='pearson')
-            fig_temp = px.imshow(
-                correl_mtx,
-                text_auto=True,
-                color_continuous_scale='RdBu',
-                range_color=[-1, 1],
-                labels=dict(color='Pearsons Corellation'),
-                x=correl_mtx.columns,
-                y=correl_mtx.index,
-                title='Pearsons Correlations'
-            )
 
-            fig_temp.update_layout(
-                xaxis_title="Values",
-                yaxis_title="Values",
-                template='plotly_dark'
-            )
+    def generate_pearsons_mtx(self):
+        interest_columns = ['Sleep Duration', 'Quality of Sleep', 'Physical Activity Level', 'Stress Level']
+        grouped_df = self.df[interest_columns]
 
-            return fig_temp
-        '''
-}
+        correl_mtx = grouped_df.corr(method='pearson')
+        fig_temp = px.imshow(
+            correl_mtx,
+            text_auto=True,
+            color_continuous_scale='RdBu',
+            range_color=[-1, 1],
+            labels=dict(color='Pearsons Corellation'),
+            x=correl_mtx.columns,
+            y=correl_mtx.index,
+            title='Pearsons Correlations'
+        )
+
+        fig_temp.update_layout(
+            xaxis_title="Values",
+            yaxis_title="Values",
+            template='plotly_dark'
+        )
+
+        return fig_temp
