@@ -46,7 +46,7 @@ class SleepDataBackend:
             self.logger.info('Inf values replaced with None.')
 
             columns_to_delete: list[str] = cfg.COLUMNS_TO_DELETE
-            columns_to_delete = [col.strip().strip('"').strip("'") for col in columns_to_delete.strip("[]").split(',')]
+            columns_to_delete = [col.strip().strip('"').strip("'") for col in columns_to_delete]
 
             df.drop(columns=columns_to_delete, errors='ignore', inplace=True)
             self.logger.info('Specified columns removed.')
