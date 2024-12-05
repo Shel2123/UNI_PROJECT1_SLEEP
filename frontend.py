@@ -39,7 +39,7 @@ class SleepDataFrontend:
             self.logger.error(f"An error occured while connecting to the server: {e}")
 
 
-    def display_graphs(self, graph_generator: analyse.GenerateGraph) -> None:
+    def display_content(self, graph_generator: analyse.GenerateGraph) -> None:
         st.title("Sleep Statistics")
 
         self.clean_data()
@@ -64,12 +64,16 @@ class SleepDataFrontend:
         if current_section_blocks:
             sections_content.append(current_section_blocks)
 
+        section_titles.append("PLEASE, ADD YOUR OWN DATA HERE FOR MY PROJECT.")
+        sections_content.append([])
+
         selected_section = st.sidebar.radio("GO TO", section_titles)
 
         for title, blocks in zip(section_titles, sections_content):
-            if title == selected_section:
-                for block in blocks:
-                    block_type, block_content = block
+            if title == "PLEASE, ADD YOUR OWN DATA HERE FOR MY PROJECT.":
+                self.display_form()
+            elif title == selected_section:
+                for block_type, block_content in blocks:
                     if block_type == 'text':
                         st.markdown(block_content)
                     elif block_type == 'method':
@@ -146,8 +150,7 @@ class SleepDataFrontend:
     def run(self):
         data: pd.DataFrame = self.load_data()
         graph_generator: analyse.GenerateGraph = analyse.GenerateGraph(data)
-        self.display_graphs(graph_generator)
-        self.display_form()
+        self.display_content(graph_generator)
 
 
 if __name__ == "__main__":
