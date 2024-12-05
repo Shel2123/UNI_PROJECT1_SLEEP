@@ -39,39 +39,61 @@ class SleepDataFrontend:
             self.logger.error(f"An error occured while connecting to the server: {e}")
 
 
-    def dispaly_graphs(self, graph_generator: analyse.GenerateGraph) -> None:
+    def display_graphs(self, graph_generator: analyse.GenerateGraph) -> None:
         st.title("Sleep Statistics")
-        
+
         self.clean_data()
-        
+
         file_to_parse_PATH: str = dotenv_values('.env')['PATH_TO_PARSE']
         utils_obj: utils.Utils = utils.Utils(file_to_parse_PATH)
         content: list[tuple[str, str]] = utils_obj.parse_file()
-        
+
+        section_titles = []
+        sections_content = []
+        current_section_blocks = []
+
         for block_type, block_content in content:
-            if block_type == 'text':
-                with st.container():
-                    st.markdown(block_content)
-            elif block_type == 'method':
-                method_name: str = block_content.strip()
-                if hasattr(graph_generator, method_name):
-                    method = getattr(graph_generator, method_name)
-                    if callable(method):
-                        try:
-                            fig = method()
-                            if fig:
-                                st.plotly_chart(fig, use_container_width=True, key=utils_obj.generate_key())
+            if block_type == 'title':
+                if current_section_blocks:
+                    sections_content.append(current_section_blocks)
+                    current_section_blocks = []
+                section_titles.append(block_content.strip())
+            else:
+                current_section_blocks.append((block_type, block_content))
+
+        if current_section_blocks:
+            sections_content.append(current_section_blocks)
+
+        selected_section = st.sidebar.radio("GO TO", section_titles)
+
+        for title, blocks in zip(section_titles, sections_content):
+            if title == selected_section:
+                for block in blocks:
+                    block_type, block_content = block
+                    if block_type == 'text':
+                        st.markdown(block_content)
+                    elif block_type == 'method':
+                        method_name: str = block_content.strip()
+                        if hasattr(graph_generator, method_name):
+                            method = getattr(graph_generator, method_name)
+                            if callable(method):
+                                try:
+                                    fig = method()
+                                    if fig:
+                                        st.plotly_chart(fig, use_container_width=True, key=utils_obj.generate_key())
+                                    else:
+                                        st.error(f"Метод '{method_name}' вернул None.")
+                                except Exception as e:
+                                    st.error(f"Ошибка при вызове метода '{method_name}': {e}")
+                                    self.logger.error(f"Ошибка при вызове метода '{method_name}': {e}")
                             else:
-                                st.error(f"Method '{method_name}' returned None.")
-                        except Exception as e:
-                            st.error(f"Error while calling method '{method_name}'")
-                    else:
-                        st.error(f"'{method_name}' is not a method.")
-                else:
-                    st.error(f"There is no '{method_name}' method.")
-            elif block_type == "code":
-                with st.expander("Show/Close code"):
-                    st.code(block_content)
+                                st.error(f"'{method_name}' не является методом.")
+                        else:
+                            st.error(f"Метод '{method_name}' не найден.")
+                    elif block_type == 'code':
+                        with st.expander("Показать/Скрыть код"):
+                            st.code(block_content)
+                break
 
 
     def display_form(self):
@@ -112,9 +134,6 @@ class SleepDataFrontend:
                 with st.expander("Show/Close sent data"):
                     st.json(response.json())
                 st.cache_data.clear()
-                data: pd.DataFrame = self.load_data()
-                graph_generator: analyse.GenerateGraph = analyse.GenerateGraph(data)
-                self.dispaly_graphs(graph_generator)
             else:
                 st.error("An error occured while sending the data.")
                 self.logger.info(n_data)
@@ -127,7 +146,7 @@ class SleepDataFrontend:
     def run(self):
         data: pd.DataFrame = self.load_data()
         graph_generator: analyse.GenerateGraph = analyse.GenerateGraph(data)
-        self.dispaly_graphs(graph_generator)
+        self.display_graphs(graph_generator)
         self.display_form()
 
 
