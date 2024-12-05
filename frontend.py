@@ -82,16 +82,16 @@ class SleepDataFrontend:
                                     if fig:
                                         st.plotly_chart(fig, use_container_width=True, key=utils_obj.generate_key())
                                     else:
-                                        st.error(f"Метод '{method_name}' вернул None.")
+                                        st.error(f"Method '{method_name}' edned with None.")
                                 except Exception as e:
-                                    st.error(f"Ошибка при вызове метода '{method_name}': {e}")
-                                    self.logger.error(f"Ошибка при вызове метода '{method_name}': {e}")
+                                    st.error(f"Error while calling '{method_name}': {e}")
+                                    self.logger.error(f"Error while calling '{method_name}': {e}")
                             else:
-                                st.error(f"'{method_name}' не является методом.")
+                                st.error(f"'{method_name}' not a method.")
                         else:
-                            st.error(f"Метод '{method_name}' не найден.")
+                            st.error(f"Method '{method_name}' not found.")
                     elif block_type == 'code':
-                        with st.expander("Показать/Скрыть код"):
+                        with st.expander("Show/Close code"):
                             st.code(block_content)
                 break
 
