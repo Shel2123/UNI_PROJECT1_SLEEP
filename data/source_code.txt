@@ -62,7 +62,7 @@ def generate_occupation_chart(self):
     return fig_occupation
 
 #TEXT
-### The chart shows a heavy concentration in medical and technical professions, as nurses, doctors, and engineers together account for more than 55% of the total. Management-related roles (like Manager and Sales Representative) and specific technical roles (like Software Engineer and Scientist) occupy a minimal share of less than 3% combined. This suggests a workforce distribution favoring healthcare, education, and technical fields over managerial or niche technical roles.
+### The chart shows a heavy concentration in medical and technical professions, as nurses, doctors and engineers together account for more than 55% of the total. Management-related roles (like Manager and Sales Representative) and specific technical roles (like Software Engineer and Scientist) occupy a minimal share of less than 3% combined. This suggests a workforce distribution favoring healthcare, education and technical fields over managerial or niche technical roles.
 
 #TITLE
 Stress lvl vs Occupation
@@ -350,10 +350,10 @@ def generate_phys_sleep_chart(self):
     return fig_phyz
 
 #TEXT
-### The diagram compares three variables — sleep quality (blue line), stress level (red line), and physical activity level (yellow line) — across different age groups.
+### The diagram compares three variables — sleep quality (blue line), stress level (red line) and physical activity level (yellow line) — across different age groups.
 
 #TEXT
-### There is a clear interaction between stress, sleep quality, and physical activity:
+### There is a clear interaction between stress, sleep quality physical activity:
 
 #TEXT
 ### Higher physical activity correlates with reduced stress and better sleep.
@@ -423,10 +423,10 @@ def generate_duration_vs_quality_vs_phys_chart(self):
     return fig_duration_vs_quality_vs_phyz
 
 #TEXT
-### The diagram compares three metrics — sleep quality (blue line), sleep duration (red line), and physical activity level (yellow line) — across various age groups.
+### The diagram compares three metrics — sleep quality (blue line), sleep duration (red line) and physical activity level (yellow line) — across various age groups.
 
 #TEXT
-### The data suggests a positive correlation between physical activity and better sleep outcomes (both quality and duration). For instance, the spike in activity around age 50 aligns with improvements in sleep metrics. Stress or lifestyle changes around age 35 could explain the concurrent decline in sleep quality, duration, and activity levels. Maintaining physical activity levels, especially after age 50, may help preserve sleep quality even as natural aging occurs.
+### The data suggests a positive correlation between physical activity and better sleep outcomes (both quality and duration). For instance, the spike in activity around age 50 aligns with improvements in sleep metrics. Stress or lifestyle changes around age 35 could explain the concurrent decline in sleep quality, duration and activity levels. Maintaining physical activity levels, especially after age 50, may help preserve sleep quality even as natural aging occurs.
 
 #TEXT
 ### We can see that there is such a big dependence, but from 45 till 54 there is exception. After previous analise I can mention, that level of stress affects the physical activity. But lets look at numeratic statistics.
@@ -496,4 +496,4 @@ Conclusion
 ### Workforce Dynamics: Stress levels vary widely by profession, with healthcare workers requiring targeted interventions to manage their high stress loads.
 
 #TEXT
-### Recommendations: Organizations and individuals should focus on promoting stress management strategies, encouraging physical activity, and maintaining work-life balance to optimize health and well-being across professions and age groups.
+### Recommendations: Organizations and individuals should focus on promoting stress management strategies, encouraging physical activity and maintaining work-life balance to optimize health and well-being across professions and age groups.
