@@ -1,5 +1,5 @@
 from typing import Any
-from fastapi import APIRouter, FastAPI, Request
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from data.base_model import FormData
@@ -41,8 +41,8 @@ class Routes:
         Define and include the API routes.
         """
         @self.router.post('/api/submit/')
-        async def submit_data(request: Request, data: FormData) -> Any:
-            return await self.backend.submit_data(request, data)
+        async def submit_data(data: FormData) -> Any:
+            return await self.backend.submit_data(data)
 
         @self.router.get('/api/clean_data/')
         async def clean_data() -> Any:
