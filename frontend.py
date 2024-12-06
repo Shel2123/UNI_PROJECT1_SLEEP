@@ -102,14 +102,16 @@ class SleepDataFrontend:
         if current_section_blocks:
             sections_content.append(current_section_blocks)
 
-        # Add a custom section for data submission
-        section_titles.append("PLEASE, ADD YOUR OWN DATA HERE FOR MY PROJECT.")
+        
+        section_titles.append(cfg.form_title)
         sections_content.append([])
+
+        st.sidebar.title('Navigation')
 
         selected_section = st.sidebar.radio("GO TO", section_titles)
 
         for title, blocks in zip(section_titles, sections_content):
-            if title == "PLEASE, ADD YOUR OWN DATA HERE FOR MY PROJECT.":
+            if title == cfg.form_title:
                 self.display_form()
             elif title == selected_section:
                 for block_type, block_content in blocks:

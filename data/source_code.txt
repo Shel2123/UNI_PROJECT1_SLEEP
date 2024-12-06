@@ -1,5 +1,5 @@
 #TITLE
-Gender chart
+Gender Chart
 
 #TEXT
 ### To commence, it is quite important to present general data that is fundamental to the research. Please refer to the attached pie-chart, which can give you the idea of the distribution of our study participants: 
@@ -28,7 +28,7 @@ def generate_gender_chart(self):
     return fig_gender
 
 #TITLE
-Occupation chart
+Occupation Chart
 
 #TEXT
 ### The next one can provide information regarding the participants’ occupations: 
@@ -65,7 +65,7 @@ def generate_occupation_chart(self):
 ### Moving on to the following chart, we observe a significant concentration in medical and technical professions. Nurses, doctors and engineers collectively account for more than 55% of the total workforce. Conversely, management-related roles (such as Manager and Sales Representative) and specific technical roles (such as Software Engineer and Scientist) occupy a relatively small share, collectively comprising less than 3%. This distribution indicates a preference for healthcare, education and technical fields over managerial or niche technical roles.
 
 #TITLE
-Stress lvl vs Occupation
+Stress vs Occupation
 
 #TEXT
 ### If we propose a strong correlation between occupational stress levels and one’s profession, we can construct the following diagram: 
@@ -117,7 +117,7 @@ def generate_stress_occupation_chart(self):
 ### This data suggests that stress levels correlate strongly with the nature of work, responsibility and the emotional or physical demands of the role. It may prompt organizations to focus on stress management strategies, especially for healthcare and engineering professionals.
 
 #TITLE
-2D histogram
+2D Histogram
 
 #TEXT
 ### To illustrate this phenomenon, we can construct a two-dimensional histogram to compare sleep duration and stress levels:
@@ -173,7 +173,7 @@ def generate_spray_graph(self):
     return fig_spray
 
 #TITLE
-Careful overview of 2D
+Close overview
 
 #TEXT
 ### To ensure clarity, let us examine the primary tendency more closely:
@@ -438,7 +438,7 @@ def generate_duration_vs_quality_vs_phys_chart(self):
 ### It is evident that there is a significant correlation between these variables. However, from the age range of 45 to 54, there appears to be an exception. Previously, I have mentioned that stress levels can influence physical activity. Let us now examine the numerical statistics.
 
 #TITLE
-Pearson's diagram
+Pearson's Correlation
 
 #TEXT
 ### I am employing Pearson’s correlation formula to calculate the correlation coefficients.
