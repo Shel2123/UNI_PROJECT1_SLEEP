@@ -6,8 +6,9 @@ from dotenv import dotenv_values
 import uvicorn
 import pandas as pd
 import numpy as np
+import joblib
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from data.base_model import FormData
 from routes import Routes
 import data.cfg as cfg
@@ -26,9 +27,12 @@ class SleepDataBackend:
         Initialize the backend by setting up logging, creating a FastAPI application,
         and adding routes.
         """
+        self.model_path = dotenv_values('.env')['MODEL_PATH']
+        self.model = self.load_model()
         self.setup_logging()
         self.app = FastAPI()
         self.PATH: str = dotenv_values('.env')['PATH']
+        
         Routes(self.app, self)
 
     def setup_logging(self) -> None:
@@ -37,6 +41,13 @@ class SleepDataBackend:
         """
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
+
+    def load_model(self):
+        try:
+            model = joblib.load(self.model_path)
+            return model
+        except Exception as e:
+            logging.error(f"An error '{e}' occured while loading model.")
 
     async def clean_data(self) -> Dict[str, Any]:
         """
@@ -130,6 +141,31 @@ class SleepDataBackend:
         self.logger.info("New data appended and CSV updated.")
 
         return {"message": "Data taken successfully!", "data": new_data}
+
+    async def predict_stress(self,
+                              gender: str,
+                              age: float,
+                              occupation: str,
+                              sleep_duration: float,
+                              quality_of_sleep: float,
+                              physical_activity_level: float) -> Dict[str, Any]:
+        """
+        Easy logic for calculating average stress level on users data.
+        """
+        if self.model is None:
+            raise HTTPException(status_code=500, detail="Model is not loaded.")
+        
+        df = pd.read_csv(self.PATH)
+        
+        input_df = df.tail(1)
+        
+        try:
+            prediction = self.model.predict(input_df)[0]
+            return {"predicted_stress_level": float(prediction)}
+        except Exception as e:
+            self.logger.error(f"Error during prediction: {e}")
+            raise HTTPException(status_code=500, detail={e})
+        
 
     def run(self) -> None:
         """

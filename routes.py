@@ -1,5 +1,5 @@
 from typing import Any
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from data.base_model import FormData
@@ -51,5 +51,19 @@ class Routes:
         @self.router.get('/api/')
         async def main() -> dict[str, str]:
             return {'message': "Hello from FastAPI."}
+        
+        @self.router.get('/api/predict_stress/')
+        async def predict_stress(
+            gender: str = Query(...),
+            age: float = Query(...),
+            occupation: str = Query(...),
+            sleep_duration: float = Query(...),
+            quality_of_sleep: float = Query(...),
+            physical_activity_level: float = Query(...)
+        ) -> Any:
+            return await self.backend.predict_stress(
+                gender, age, occupation,
+                sleep_duration, quality_of_sleep, physical_activity_level
+            )
 
         self.app.include_router(self.router)
