@@ -193,16 +193,16 @@ class SleepDataFrontend:
         except requests.exceptions.RequestException as e:
             st.error("Could not connect to the server.")
             self.logger.error(f"Connection error: {e}")
-        
+
     def handle_prediction(self, data: Dict[str, Any]) -> None:
         try:
             response = requests.get(cfg.PREDICT_URL, params=data)
             response.raise_for_status()
             data = response.json()
-            
+
             st.write("### Predicted Stress Level on your data")
             st.write(f"### The predicted stress level is: **{data['predicted_stress_level']}**")
-            st.write('P.S. This data is calculated based on 370 responses')
+            st.write("P.S. This data is calculated based on 370 responses")
         except requests.RequestException as e:
             st.error(f"An error occuredwhile predicting: {e}")
 

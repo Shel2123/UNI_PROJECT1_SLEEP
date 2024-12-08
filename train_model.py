@@ -10,7 +10,7 @@ import joblib
 class ModelTrainer:
     def __init__(self, csv_path: str, model_path: str):
         self.csv_path: str = csv_path
-        self.model_path = model_path
+        self.model_path: str = model_path
         self.model = None
         self.data = None
         self.X = None

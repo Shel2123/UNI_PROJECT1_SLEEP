@@ -32,7 +32,7 @@ class SleepDataBackend:
         self.setup_logging()
         self.app = FastAPI()
         self.PATH: str = dotenv_values('.env')['PATH']
-        
+
         Routes(self.app, self)
 
     def setup_logging(self) -> None:

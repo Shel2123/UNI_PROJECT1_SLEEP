@@ -336,8 +336,8 @@ class GenerateGraph:
 
 
     def generate_pearsons_mtx(self):
-        interest_columns = ['Sleep Duration', 'Quality of Sleep', 'Physical Activity Level', 'Stress Level']
-        grouped_df = self.df[interest_columns]
+        columns = ['Sleep Duration', 'Quality of Sleep', 'Physical Activity Level', 'Stress Level']
+        grouped_df = self.df[columns]
 
         correl_mtx = grouped_df.corr(method='pearson')
         fig_temp = px.imshow(
