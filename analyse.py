@@ -1,10 +1,13 @@
 import plotly.express as px
 import plotly.graph_objects as go
 from typing import List, Tuple, Dict
+from dotenv import dotenv_values
+import pandas as pd
 
 
 class GenerateGraph:
-    def __init__(self, data): 
+    def __init__(self, data) -> None:
+        self.PATH = dotenv_values('.env')['PATH']
         self.df = data
 
     def generate_gender_chart(self):
@@ -63,6 +66,7 @@ class GenerateGraph:
         average_stress_table = average_stress_table.sort_values(by='average_stress_level',
                                                                 ascending=False
         )
+
 
         # draw the graph
         fig_chart_occupation_stress = px.bar(
@@ -246,28 +250,37 @@ class GenerateGraph:
             average_stress=('Stress Level', 'mean')
         ).reset_index()
 
+        try:
+            self.df = pd.merge(self.df, grouped_df, on='Age', how='left')
+        except Exception as e:
+            print(e)
+
+        self.df.to_csv(self.PATH, index=False)
+
         # add average sleep quality line
         fig_phyz.add_trace(go.Scatter(
-            x=grouped_df['Age'],
-            y=grouped_df['average_quality'],
+            x=self.df['Age'],
+            y=self.df['average_quality'],
             mode='lines',
             name='Average Quality of Sleep',
             line=dict(color='rgb(0, 130, 180)')
         ))
 
+
         # add average stress level line
         fig_phyz.add_trace(go.Scatter(
-            x=grouped_df['Age'],
-            y=grouped_df['average_stress'],
+            x=self.df['Age'],
+            y=self.df['average_stress'],
             mode='lines',
             name='Average Stress Level',
             line=dict(color='rgb(205, 92, 92)')
         ))
 
+
         # add physical activity line
         fig_phyz.add_trace(go.Scatter(
-            x=grouped_df['Age'],
-            y=grouped_df['average_physical'] / 10,
+            x=self.df['Age'],
+            y=self.df['average_physical'] / 10,
             mode='lines',
             name='Average Physical Activity Level',
             line=dict(color='orange')
