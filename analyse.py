@@ -259,8 +259,8 @@ class GenerateGraph:
 
         # add average sleep quality line
         fig_phyz.add_trace(go.Scatter(
-            x=self.df['Age'],
-            y=self.df['average_quality'],
+            x=grouped_df['Age'],
+            y=grouped_df['average_quality'],
             mode='lines',
             name='Average Quality of Sleep',
             line=dict(color='rgb(0, 130, 180)')
@@ -269,8 +269,8 @@ class GenerateGraph:
 
         # add average stress level line
         fig_phyz.add_trace(go.Scatter(
-            x=self.df['Age'],
-            y=self.df['average_stress'],
+            x=grouped_df['Age'],
+            y=grouped_df['average_stress'],
             mode='lines',
             name='Average Stress Level',
             line=dict(color='rgb(205, 92, 92)')
@@ -279,8 +279,8 @@ class GenerateGraph:
 
         # add physical activity line
         fig_phyz.add_trace(go.Scatter(
-            x=self.df['Age'],
-            y=self.df['average_physical'] / 10,
+            x=grouped_df['Age'],
+            y=grouped_df['average_physical'] / 10,
             mode='lines',
             name='Average Physical Activity Level',
             line=dict(color='orange')
