@@ -201,7 +201,8 @@ class SleepDataFrontend:
             data = response.json()
             
             st.write("### Predicted Stress Level on your data")
-            st.write(f"### The predicted stress level is: **{data['predicted_stress_level']}'**")
+            st.write(f"### The predicted stress level is: **{data['predicted_stress_level']}**")
+            st.write('P.S. This data is calculated based on 370 responses')
         except requests.RequestException as e:
             st.error(f"An error occuredwhile predicting: {e}")
 
